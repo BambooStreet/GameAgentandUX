@@ -1,0 +1,15 @@
+# OpenAI API 설정
+OPENAI_API_KEY=your_openai_api_key_here
+
+# AI 모델 설정
+# 사용 가능한 모델: "gpt-4o-mini", "gpt-5o-mini"
+# 가격 비교를 위해 두 모델을 번갈아가며 테스트해보세요
+AI_MODEL=gpt-4o-mini
+
+# 서버 설정
+PORT=8000
+HOST=0.0.0.0
+
+# 게임 설정
+MAX_PLAYERS=4
+GAME_TIMEOUT=300

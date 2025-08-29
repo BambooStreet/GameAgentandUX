@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사망 공지 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .death-message {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 5px solid #c0392b;
+        }
+        .moderator-message {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 5px solid #2980b9;
+        }
+        .test-button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>사망 공지 테스트</h1>
+        <p>이 페이지는 사망 공지가 제대로 표시되는지 테스트하기 위한 것입니다.</p>
+        
+        <h2>테스트 메시지들:</h2>
+        
+        <div class="death-message">
+            <strong>💀 플레이어1님이 밤에 마피아에게 살해되었습니다!</strong><br>
+            🔴 플레이어1님은 더 이상 게임에 참여할 수 없습니다.
+        </div>
+        
+        <div class="death-message">
+            <strong>💀 플레이어2님이 투표로 제거되었습니다!</strong><br>
+            🔴 플레이어2님은 더 이상 게임에 참여할 수 없습니다.
+        </div>
+        
+        <div class="moderator-message">
+            <strong>📢 사회자:</strong><br>
+            ☀️ 낮이 되었습니다. 토론을 시작하세요.
+        </div>
+        
+        <h2>테스트 버튼:</h2>
+        <button class="test-button" onclick="testDeathMessage()">사망 메시지 테스트</button>
+        <button class="test-button" onclick="testModeratorMessage()">사회자 메시지 테스트</button>
+        
+        <div id="test-output"></div>
+    </div>
+
+    <script>
+        function testDeathMessage() {
+            const output = document.getElementById('test-output');
+            const deathMsg = document.createElement('div');
+            deathMsg.className = 'death-message';
+            deathMsg.innerHTML = `
+                <strong>💀 테스트 플레이어님이 밤에 마피아에게 살해되었습니다!</strong><br>
+                🔴 테스트 플레이어님은 더 이상 게임에 참여할 수 없습니다.
+            `;
+            output.appendChild(deathMsg);
+        }
+        
+        function testModeratorMessage() {
+            const output = document.getElementById('test-output');
+            const moderatorMsg = document.createElement('div');
+            moderatorMsg.className = 'moderator-message';
+            moderatorMsg.innerHTML = `
+                <strong>📢 사회자:</strong><br>
+                🌙 밤이 되었습니다. 마피아는 제거할 대상을 선택하세요.
+            `;
+            output.appendChild(moderatorMsg);
+        }
+    </script>
+</body>
+</html>
+

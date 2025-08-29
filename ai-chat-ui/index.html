@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마피아 게임 - AI 에이전트</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MAFIA GAME</h1>
+            <div class="game-status">
+                <!-- <div class="phase-indicator" id="phaseIndicator">대기 중</div>
+                <div class="turn-indicator" id="turnIndicator">턴: 0</div> -->
+            </div>
+        </div>
+
+        <!-- 게임 시작 화면 -->
+        <div class="game-start" id="gameStart">
+            <div class="start-form">
+                <h2>Game Start</h2>
+                <input type="text" id="playerName" placeholder="당신의 이름을 입력하세요" required maxlength="10" />
+                <button id="enterNameBtn">이름 입력 완료</button>
+            </div>
+        </div>
+
+        <!-- 게임 설명 팝업 -->
+        <div class="game-intro-modal" id="gameIntroModal" style="display: none;">
+            <div class="modal-content">
+                <h2>🎮 마피아 게임 시작!</h2>
+                <div class="game-rules">
+                    <h3>게임 규칙</h3>
+                    <ul>
+                        <li><strong>밤:</strong> 마피아가 한 명을 선택하여 제거합니다</li>
+                        <li><strong>낮:</strong> 모든 플레이어가 토론하여 의심스러운 사람을 찾습니다</li>
+                        <li><strong>투표:</strong> 가장 의심스러운 사람에게 투표하여 제거합니다</li>
+                        <li><strong>승리 조건:</strong> 마피아를 모두 찾으면 시민 승리, 시민이 마피아보다 적어지면 마피아 승리</li>
+                    </ul>
+                </div>
+                <div class="player-info">
+                    <h3>플레이어 구성</h3>
+                    <p>• <span style="color: #2ecc71;">시민 3명</span> - 마피아를 찾아야 합니다</p>
+                    <p>• <span style="color: #e74c3c;">마피아 1명</span> - 시민들을 속여야 합니다</p>
+                </div>
+                <button id="startGameBtn" class="start-game-btn">게임 시작하기</button>
+            </div>
+        </div>
+
+        <!-- 역할 안내 팝업 -->
+        <div class="role-modal" id="roleModal" style="display: none;">
+            <div class="modal-content">
+                <h2>🎭 당신의 역할</h2>
+                <div class="role-info">
+                    <div class="role-icon" id="roleIcon">🧑‍💼</div>
+                    <div class="role-text" id="roleText">시민</div>
+                    <div class="role-description" id="roleDescription">
+                        마피아를 찾아내서 시민팀의 승리를 이끌어주세요!
+                    </div>
+                </div>
+                <button id="confirmRoleBtn" class="confirm-role-btn">확인</button>
+            </div>
+        </div>
+
+        <!-- 게임 진행 화면 -->
+        <div class="game-area" id="gameArea" style="display: none;">
+            <div class="game-info">
+                <div class="player-list" id="playerList">
+                    <!-- 플레이어 목록이 여기에 표시됩니다 -->
+                </div>
+                <div class="usage-stats" id="usageStats" style="display: none;">
+                    <h3>💰 AI 모델 사용량</h3>
+                    <div class="stats-content">
+                        <div class="stat-item">
+                            <span class="stat-label">모델:</span>
+                            <span class="stat-value" id="currentModel">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">입력 토큰:</span>
+                            <span class="stat-value" id="inputTokens">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">출력 토큰:</span>
+                            <span class="stat-value" id="outputTokens">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">총 비용:</span>
+                            <span class="stat-value" id="totalCost">$0.000000</span>
+                        </div>
+                    </div>
+                    <button id="resetStatsBtn" class="reset-stats-btn">통계 초기화</button>
+                </div>
+                <div class="game-controls">
+                    <button id="toggleStatsBtn" class="toggle-stats-btn">📊 사용량 통계</button>
+                    <!-- <button id="completeIntroBtn" style="display: none;">자기소개 완료</button>
+                    <button id="nextPhaseBtn" style="display: none;">다음 페이즈</button>
+                    <button id="voteBtn" style="display: none;">투표하기</button> -->
+                </div>
+            </div>
+
+            <div class="chat-controls">
+                <div class="tabs">
+                    <button class="tab-btn active" data-filter="all">전체 메시지</button>
+                    <button class="tab-btn" data-filter="moderator">사회자</button>
+                    <button class="tab-btn" data-filter="player">플레이어</button>
+                    <button class="tab-btn" data-filter="ai">AI 에이전트</button>
+                </div>
+            </div>
+
+            <div class="chat-area">
+                <div class="messages-container" id="messagesContainer">
+                    <!-- 메시지들이 여기에 표시됩니다 -->
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-controls">
+                    <input type="text" id="messageInput" placeholder="메시지를 입력하세요..." />
+                    <button id="sendBtn">전송</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모듈화된 스크립트들 -->
+    <script src="/static/js/modules/APIClient.js"></script>
+    <script src="/static/js/modules/GameManager.js"></script>
+    <script src="/static/js/modules/ChatManager.js"></script>
+    <script src="/static/js/modules/UIController.js"></script>
+    <script src="/static/js/modules/EventHandler.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
